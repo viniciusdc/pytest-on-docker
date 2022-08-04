@@ -5,8 +5,8 @@ channels:
 
 dependencies:
   - python=3.8
+  - pip
 
-  - docker
   - pytest
   - requests
   - tabulate
@@ -15,4 +15,5 @@ dependencies:
     - pre-commit
     - black
     - pytest-xdist
+    - docker
 
