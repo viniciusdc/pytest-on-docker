@@ -7,7 +7,7 @@ on:
 
       # We use local reusable workflows to make architecture clean an simple
       # https://docs.github.com/en/actions/using-workflows/reusing-workflows
-      - ".github/actions/build-artifact-upload/**"
+      - ".github/actions/build-artifact/**"
       - ".github/actions/build-conda-env/**"
 
       - "sample/**"
@@ -18,7 +18,7 @@ on:
     paths:
       - ".github/workflows/docker-build-test.yaml"
 
-      - ".github/actions/build-artifact-upload/**"
+      - ".github/actions/build-artifact/**"
       - ".github/actions/build-conda-env/**"
 
       - "sample/**"
