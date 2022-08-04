@@ -56,7 +56,7 @@ jobs:
 
       # Run only if docker files changed
       - name: Linux-amd64 🚀
-        uses: ./.github/actions/build-artifact-upload
+        uses: ./.github/actions/build-artifact
         with:
           dockerFile: Dockerfile.${{ matrix.image }}
           image: ${{ matrix.image }}
