@@ -3,7 +3,7 @@ name: Build and Test
 on:
   pull_request:
     paths:
-      - ".github/workflows/docker-build-test.yaml"
+      - ".github/workflows/build-test.yaml"
 
       # We use local reusable workflows to make architecture clean an simple
       # https://docs.github.com/en/actions/using-workflows/reusing-workflows
@@ -16,7 +16,7 @@ on:
 
   push:
     paths:
-      - ".github/workflows/docker-build-test.yaml"
+      - ".github/workflows/build-test.yaml"
 
       - ".github/actions/build-artifact/**"
       - ".github/actions/build-conda-env/**"
