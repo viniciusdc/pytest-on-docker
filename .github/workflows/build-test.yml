@@ -1,0 +1,68 @@
+name: Build and Test
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/docker-build-test.yaml"
+
+      # We use local reusable workflows to make architecture clean an simple
+      # https://docs.github.com/en/actions/using-workflows/reusing-workflows
+      - ".github/actions/build-artifact-upload/**"
+      - ".github/actions/build-conda-env/**"
+
+      - "sample/**"
+      - "scripts/**"
+      - "tests/**"
+
+  push:
+    paths:
+      - ".github/workflows/docker-build-test.yaml"
+
+      - ".github/actions/build-artifact-upload/**"
+      - ".github/actions/build-conda-env/**"
+
+      - "sample/**"
+      - "scripts/**"
+      - "tests/**"
+
+  workflow_dispatch:
+
+
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  # only cancel in-progress jobs or runs for the current workflow - matches against branch & tags
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+jobs:
+  docker-build-test:
+    # Avoid running the pipeline twice, if the PR is already merged
+    if: github.event.pull_request.merged == false
+    name: 'Build & test Docker Images'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - sample
+    steps:
+      - name: Checkout Infrastructure ⚡️
+        uses: actions/checkout@v3
+
+      - name: Build environment
+        uses: ./.github/actions/build-conda-env
+        with:
+          environment-path: runner-requirements.yaml
+
+      # Run only if docker files changed
+      - name: Linux-amd64 🚀
+        uses: ./.github/actions/build-artifact-upload
+        with:
+          dockerFile: Dockerfile.${{ matrix.image }}
+          image: ${{ matrix.image }}
+          platform: amd64
+
+      # - name: Run tests ✅
+      #   if: steps.filter.outputs.source == 'true'
+      #   run: python3 -m tests.run_tests --image-name ${{ matrix.image }}
+      #   shell: bash

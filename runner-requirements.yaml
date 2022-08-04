@@ -1,0 +1,18 @@
+name: dev-runner
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.8
+
+  - docker
+  - pytest
+  - requests
+  - tabulate
+
+  - pip:
+    - pre-commit
+    - black
+    - pytest-xdist
+
